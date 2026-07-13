@@ -104,7 +104,9 @@ source/_posts/                         文章目录
 source/uploads/                        站点通用图片，例如头像
 themes/shana/                          当前主题
 themes/shana/_config.yml               主题配置
-themes/shana/source/css/images/        主题图片，例如背景图
+themes/shana/source/css/images/        主题图片根目录
+themes/shana/source/css/images/background/  四张全屏轮播背景
+themes/shana/source/css/images/pointer/     自定义鼠标指针
 themes/shana/source/plugin/bganimation/bg.css  全屏轮播背景
 themes/shana/layout/_partial/          主题页面模板
 public/                                Hexo 生成结果，不要手动维护
@@ -149,10 +151,10 @@ categories:
 常改字段：
 
 ```yml
-title: Adonis
+title: Adonis's Personal Blog
 subtitle: 'A Personal Blog'
 description: ''
-author: John Doe
+author: 'Adonis Klein'
 language: zh-CN
 ```
 
@@ -205,7 +207,7 @@ themes/shana/source/css/_variables.styl
 
 ```stylus
 banner-height = 300px
-banner-url = "images/MyGO.jpg"
+banner-url = "images/MyGO.png"
 ```
 
 图片建议放在：
@@ -226,6 +228,25 @@ themes/shana/source/css/images/my-banner.jpg
 banner-url = "images/my-banner.jpg"
 ```
 
+当前图片用途：
+
+```text
+MyGO.png    当前正在使用的顶部横幅
+banner.jpg  未被代码引用的备用素材
+banne1r.jpg 未被代码引用的备用素材（文件名确实是 banne1r）
+```
+
+顶部横幅由 `themes/shana/layout/_partial/header.ejs` 中的 `#banner` 元素展示，样式位于
+`themes/shana/source/css/_partial/header.styl`。`banner.jpg` 和 `banne1r.jpg` 会被 Hexo
+复制到 `public/`，但因为 CSS 没有引用，浏览器不会主动下载。
+
+如果修改了 `_variables.styl` 后生成结果仍引用旧文件，必须清理 Hexo 缓存：
+
+```bash
+npm run clean
+npm run build
+```
+
 ## 修改全屏轮播背景
 
 你看到的多张底图轮换来自这个文件：
@@ -234,41 +255,36 @@ banner-url = "images/my-banner.jpg"
 themes/shana/source/plugin/bganimation/bg.css
 ```
 
-当前轮播使用 5 张图片：
+当前轮播使用 4 张图片：
 
 ```css
 .cb-slideshow li:nth-child(1) span {
-  background-image: url('../../css/images/1.png');
+  background-image: url('../../css/images/background/background_1.png');
 }
 
 .cb-slideshow li:nth-child(2) span {
-  background-image: url('../../css/images/2.png');
+  background-image: url('../../css/images/background/background_2.png');
 }
 
 .cb-slideshow li:nth-child(3) span {
-  background-image: url('../../css/images/3.jpg');
+  background-image: url('../../css/images/background/background_3.png');
 }
 
 .cb-slideshow li:nth-child(4) span {
-  background-image: url('../../css/images/4.png');
-}
-
-.cb-slideshow li:nth-child(5) span {
-  background-image: url('../../css/images/5.png');
+  background-image: url('../../css/images/background/background_4.png');
 }
 ```
 
 对应图片位于：
 
 ```text
-themes/shana/source/css/images/1.png
-themes/shana/source/css/images/2.png
-themes/shana/source/css/images/3.jpg
-themes/shana/source/css/images/4.png
-themes/shana/source/css/images/5.png
+themes/shana/source/css/images/background/background_1.png
+themes/shana/source/css/images/background/background_2.png
+themes/shana/source/css/images/background/background_3.png
+themes/shana/source/css/images/background/background_4.png
 ```
 
-如果替换图片，最简单的方式是保持文件名不变，直接替换这 5 个文件。
+如果替换图片，最简单的方式是保持文件名不变，直接替换这 4 个文件。
 
 如果改文件名，需要同时修改 `bg.css` 里的路径。
 
@@ -278,27 +294,91 @@ themes/shana/source/css/images/5.png
 themes/shana/layout/_partial/bganimation.ejs
 ```
 
-例如 5 张图时，里面应该有 5 个 `<li>`：
+当前 4 张图对应 4 个 `<li>`：
 
 ```html
 <li><span>1</span></li>
 <li><span>2</span></li>
 <li><span>3</span></li>
 <li><span>4</span></li>
-<li><span>5</span></li>
 ```
 
-当前动画周期是 30 秒，每张约 6 秒。相关配置在 `bg.css` 中：
+当前动画周期是 24 秒，每张间隔 6 秒。相关配置在 `bg.css` 中：
 
 ```css
-animation: imageAnimation 30s linear infinite 0s;
+animation: imageAnimation 24s linear infinite 0s;
 ```
 
-如果想 5 张图每张显示 8 秒，可以把总时长改为 `40s`，并把后续图片延迟改为：
+四张图片的延迟依次为 `0s`、`6s`、`12s`、`18s`。修改数量或单张间隔时，需同时调整：
+
+```text
+总周期 = 图片数量 × 单张间隔
+第 n 张延迟 = (n - 1) × 单张间隔
+```
+
+例如 4 张图每张间隔 8 秒，应把总时长改为 `32s`，后续图片延迟改为：
 
 ```css
-8s, 16s, 24s, 32s
+8s, 16s, 24s
 ```
+
+背景图会以 `background-size: cover` 覆盖视口。为避免首次访问过慢，建议将图片缩放到
+约 `1920×1080`，优先使用 WebP 或压缩后的 PNG/JPEG，单张尽量控制在 1 MB 左右。
+
+## 修改自定义鼠标指针
+
+鼠标指针资源位于：
+
+```text
+themes/shana/source/css/images/pointer/
+```
+
+映射规则位于：
+
+```text
+themes/shana/source/css/style.styl
+```
+
+当前自动映射：
+
+| 页面状态 | 指针文件 | 触发元素 |
+| --- | --- | --- |
+| 普通 | `Normal.cur` | 页面默认区域 |
+| 链接 | `Link.cur` | 链接、按钮、下拉框、按钮角色元素 |
+| 文本 | `Text.cur` | 输入框、文本域、可编辑元素 |
+| 禁用 | `Unavailable.cur` | `disabled` 或 `aria-disabled="true"` |
+| 工作中 | `Working.cur` | `aria-busy="true"` |
+| 移动 | `Move.cur` | `draggable="true"` |
+
+其他指针没有通用 HTML 自动状态，通过 CSS 工具类使用：
+
+| 工具类 | 指针文件 | 用途 |
+| --- | --- | --- |
+| `.cursor-busy` | `Busy.cur` | 阻塞等待 |
+| `.cursor-help` | `Help.cur` | 帮助信息 |
+| `.cursor-precision` | `Precision.cur` | 精确选取 |
+| `.cursor-resize-vertical` | `Vertical.cur` | 垂直缩放 |
+| `.cursor-resize-horizontal` | `Horizontal.cur` | 水平缩放 |
+| `.cursor-resize-diagonal-1` | `Diagonal1.cur` | 西北至东南缩放 |
+| `.cursor-resize-diagonal-2` | `Diagonal2.cur` | 东北至西南缩放 |
+| `.cursor-handwriting` | `Handwriting.cur` | 手写输入 |
+| `.cursor-alternate` | `Alternate.cur` | 备用选择 |
+| `.cursor-person` | `Person.cur` | 人员相关操作 |
+| `.cursor-pin` | `Pin.cur` | 位置相关操作 |
+
+使用示例：
+
+```html
+<div class="cursor-help">帮助内容</div>
+<div class="cursor-resize-horizontal">可水平调整的区域</div>
+```
+
+更换整套指针时，可以保留当前文件名直接覆盖 `.cur` 文件。如果文件名变化，还要同步修改
+`style.styl` 中对应的 `url('images/pointer/文件名.cur')`。所有声明都保留了标准 CSS
+光标作为回退，因此浏览器不支持 `.cur` 时仍可正常使用。
+
+旧的 `icon.png` 和 `icon2.png` 已被移除。其中 `icon.png` 曾是全局默认指针，`icon2.png`
+在原主题代码中从未被引用。
 
 ## 修改菜单
 
@@ -396,16 +476,41 @@ CSS 文件里的图片路径建议使用相对路径。例如 `bg.css` 位于：
 plugin/bganimation/bg.css
 ```
 
-要引用：
+要引用轮播目录中的：
 
 ```text
-css/images/1.png
+css/images/background/background_1.png
 ```
 
 应该写：
 
 ```css
-url('../../css/images/1.png')
+url('../../css/images/background/background_1.png')
+```
+
+## 当前网页定制变更总览
+
+本轮定制包含以下内容，提交或迁移项目时需要一起保留：
+
+1. 全屏轮播由 5 张减少为 4 张，模板节点同步减少为 4 个。
+2. 轮播图片重命名为 `background_1.png` 至 `background_4.png`，并集中放入 `images/background/`。
+3. 轮播总周期由 30 秒改为 24 秒，保持每 6 秒切换。
+4. 删除旧轮播文件 `1.png`、`2.png`、`3.jpg`、`4.png`、`5.png`。
+5. 顶部横幅由 `MyGO.jpg` 更换为体积更小的 `MyGO.png`。
+6. `banner.jpg` 与 `banne1r.jpg` 保留为备用素材，当前不参与页面展示。
+7. 删除旧鼠标指针 `icon.png`、`icon2.png`，改用 `images/pointer/` 中的完整 `.cur` 指针方案。
+8. 为常用 HTML 状态添加自动指针映射，并为其余状态添加 `.cursor-*` 工具类。
+
+涉及的核心文件：
+
+```text
+themes/shana/layout/_partial/bganimation.ejs
+themes/shana/source/plugin/bganimation/bg.css
+themes/shana/source/css/_variables.styl
+themes/shana/source/css/style.styl
+themes/shana/source/css/images/background/
+themes/shana/source/css/images/pointer/
+themes/shana/source/css/images/MyGO.png
 ```
 
 ## 部署后没有变化怎么办
@@ -439,7 +544,8 @@ npm run deploy
 
 ```text
 https://AdonisKlein.github.io/Personal-blog/uploads/avatar.jpg
-https://AdonisKlein.github.io/Personal-blog/css/images/1.png
+https://AdonisKlein.github.io/Personal-blog/css/images/background/background_1.png
+https://AdonisKlein.github.io/Personal-blog/css/images/MyGO.png
 ```
 
 4. 到 GitHub 仓库 Settings -> Pages，确认发布分支是 `gh-pages`。

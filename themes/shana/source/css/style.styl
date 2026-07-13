@@ -36,7 +36,6 @@ body
 body
   font: font-size font-sans
   -webkit-text-size-adjust: 100%
-  cursor: url('images/icon.png'), default 
 
 
 .outer
@@ -109,3 +108,55 @@ if sidebar is left
 
 if sidebar
   @import "_partial/sidebar"
+
+// Custom cursor scheme. Utility classes cover states without a native HTML trigger.
+html, body, #container
+  cursor: url('images/pointer/Normal.cur'), default
+
+a, button, select, summary, label[for], [role="button"], input[type="button"], input[type="submit"], input[type="reset"], .cursor-link
+  cursor: url('images/pointer/Link.cur'), pointer
+
+input[type="text"], input[type="search"], input[type="email"], input[type="url"], input[type="tel"], input[type="password"], input[type="number"], textarea, [contenteditable="true"], .cursor-text
+  cursor: url('images/pointer/Text.cur'), text
+
+[disabled], [aria-disabled="true"], .cursor-unavailable
+  cursor: url('images/pointer/Unavailable.cur'), not-allowed
+
+[aria-busy="true"], .cursor-working
+  cursor: url('images/pointer/Working.cur'), progress
+
+.cursor-busy
+  cursor: url('images/pointer/Busy.cur'), wait
+
+.cursor-help
+  cursor: url('images/pointer/Help.cur'), help
+
+[draggable="true"], .cursor-move
+  cursor: url('images/pointer/Move.cur'), move
+
+.cursor-precision
+  cursor: url('images/pointer/Precision.cur'), crosshair
+
+.cursor-resize-vertical
+  cursor: url('images/pointer/Vertical.cur'), ns-resize
+
+.cursor-resize-horizontal
+  cursor: url('images/pointer/Horizontal.cur'), ew-resize
+
+.cursor-resize-diagonal-1
+  cursor: url('images/pointer/Diagonal1.cur'), nwse-resize
+
+.cursor-resize-diagonal-2
+  cursor: url('images/pointer/Diagonal2.cur'), nesw-resize
+
+.cursor-handwriting
+  cursor: url('images/pointer/Handwriting.cur'), text
+
+.cursor-alternate
+  cursor: url('images/pointer/Alternate.cur'), default
+
+.cursor-person
+  cursor: url('images/pointer/Person.cur'), pointer
+
+.cursor-pin
+  cursor: url('images/pointer/Pin.cur'), pointer

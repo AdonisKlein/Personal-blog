@@ -1,21 +1,17 @@
 .cb-slideshow li:nth-child(1) span {
-  background-image: url('../../css/images/1.png');
+  background-image: url('../../css/images/background/background_1.png');
 }
 
 .cb-slideshow li:nth-child(2) span {
-  background-image: url('../../css/images/2.png');
+  background-image: url('../../css/images/background/background_2.png');
 }
 
 .cb-slideshow li:nth-child(3) span {
-  background-image: url('../../css/images/3.jpg');
+  background-image: url('../../css/images/background/background_3.png');
 }
 
 .cb-slideshow li:nth-child(4) span {
-  background-image: url('../../css/images/4.png');
-}
-
-.cb-slideshow li:nth-child(5) span {
-  background-image: url('../../css/images/5.png');
+  background-image: url('../../css/images/background/background_4.png');
 }
 
 .cb-slideshow:after {
@@ -48,11 +44,11 @@ ul {
   opacity: 0;
   z-index: -2;
   -webkit-backface-visibility: hidden;
-  -webkit-animation: imageAnimation 30s linear infinite 0s;
-  -moz-animation: imageAnimation 30s linear infinite 0s;
-  -o-animation: imageAnimation 30s linear infinite 0s;
-  -ms-animation: imageAnimation 30s linear infinite 0s;
-  animation: imageAnimation 30s linear infinite 0s;
+  -webkit-animation: imageAnimation 24s linear infinite 0s;
+  -moz-animation: imageAnimation 24s linear infinite 0s;
+  -o-animation: imageAnimation 24s linear infinite 0s;
+  -ms-animation: imageAnimation 24s linear infinite 0s;
+  animation: imageAnimation 24s linear infinite 0s;
 }
 
 .cb-slideshow li div {
@@ -63,11 +59,11 @@ ul {
   width: 100%;
   text-align: right;
   opacity: 0;
-  -webkit-animation: titleAnimation 30s linear infinite 0s;
-  -moz-animation: titleAnimation 30s linear infinite 0s;
-  -o-animation: titleAnimation 30s linear infinite 0s;
-  -ms-animation: titleAnimation 30s linear infinite 0s;
-  animation: titleAnimation 30s linear infinite 0s;
+  -webkit-animation: titleAnimation 24s linear infinite 0s;
+  -moz-animation: titleAnimation 24s linear infinite 0s;
+  -o-animation: titleAnimation 24s linear infinite 0s;
+  -ms-animation: titleAnimation 24s linear infinite 0s;
+  animation: titleAnimation 24s linear infinite 0s;
 }
 
 .cb-slideshow li:nth-child(2) span,
@@ -95,15 +91,6 @@ ul {
   -o-animation-delay: 18s;
   -ms-animation-delay: 18s;
   animation-delay: 18s;
-}
-
-.cb-slideshow li:nth-child(5) span,
-.cb-slideshow li:nth-child(5) div {
-  -webkit-animation-delay: 24s;
-  -moz-animation-delay: 24s;
-  -o-animation-delay: 24s;
-  -ms-animation-delay: 24s;
-  animation-delay: 24s;
 }
 
 @-webkit-keyframes imageAnimation {
