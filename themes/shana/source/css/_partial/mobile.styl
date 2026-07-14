@@ -4,6 +4,9 @@
     top: 0
     left: 0
     z-index: 0
+    visibility: hidden
+    opacity: 0
+    pointer-events: none
     width: mobile-nav-width
     height: 100%
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/sidebackground/sidebackground.webp')
@@ -11,6 +14,13 @@
     background-repeat: no-repeat
     background-size: cover
     border-right: 1px solid #fff
+    transition: opacity 0.2s ease-out, visibility 0s linear 0.2s
+
+  .mobile-nav-on #mobile-nav
+    visibility: visible
+    opacity: 1
+    pointer-events: auto
+    transition-delay: 0s
 
 @media mq-mobile
   .mobile-nav-link
