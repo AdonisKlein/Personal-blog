@@ -74,7 +74,7 @@ show_count: false
 
 # Miscellaneous
 google_analytics:
-favicon: /favicon.png
+favicon: /favicon.ico
 twitter:
 google_plus:
 fb_admins:
@@ -146,7 +146,16 @@ npm un hexo-renderer-marked --save
 npm i hexo-renderer-markdown-it-plus --save
 ```
 
-在需要启用数学公式的博客的head添加math: true
+在需要启用数学公式的文章 Front Matter 中添加 `katex: true`：
+
+```yaml
+---
+title: 数学公式示例
+katex: true
+---
+```
+
+主题同时兼容旧的 `math: true` 写法。未设置这两个字段的页面不会加载 KaTeX 样式。
 
 编辑站点的配置文件
 

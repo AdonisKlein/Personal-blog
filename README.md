@@ -144,6 +144,21 @@ categories:
 正文内容
 ```
 
+### 按文章启用数学公式
+
+KaTeX 样式默认不加载。只需在包含公式的文章 Front Matter 中添加：
+
+```yaml
+---
+title: 数学公式示例
+date: 2026-07-14 12:00:00
+katex: true
+---
+```
+
+主题同时兼容旧的 `math: true` 写法。不包含 `katex: true` 或 `math: true` 的页面不会请求
+KaTeX CSS。这个条件只控制样式加载；Markdown 公式能否转换为 HTML 仍取决于数学渲染插件。
+
 ## 修改站点基础信息
 
 站点标题、作者、语言、部署地址在 [_config.yml](./_config.yml)。
@@ -330,6 +345,39 @@ animation: imageAnimation 30s linear infinite 0s;
 
 背景图会以 `background-size: cover` 覆盖视口。为避免首次访问过慢，建议将图片缩放到
 约 `1920×1080`，优先使用 WebP 或压缩后的 PNG/JPEG，单张尽量控制在 1 MB 左右。
+
+## 修改网站字体
+
+正文使用系统字体栈，不下载额外的中文字体文件：
+
+```stylus
+font-sans = "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", "Helvetica Neue", Arial, sans-serif
+```
+
+配置位于 `themes/shana/source/css/_variables.styl`。macOS 和 iOS 优先使用苹方，Windows
+优先使用微软雅黑，其他系统依次使用思源黑体或通用无衬线字体。这种方案没有中文字体网络请求，
+首屏速度和跨网络稳定性最好。
+
+原来的 Google Fonts `Source Code Pro` 外链也已从 `head.ejs` 移除，代码块使用系统等宽字体回退。
+`themes/shana/source/css/fonts/AlibabaPuHuiTi-3/` 中的原始 TTF 仅作为字体素材保留，网页不会引用。
+
+## 本地 jQuery
+
+主题使用的 jQuery 2.1.4 已从外部百度静态资源地址改为本地托管：
+
+```text
+themes/shana/source/js/vendor/jquery-2.1.4.min.js
+```
+
+引用位于 `themes/shana/layout/_partial/after-footer.ejs`：
+
+```ejs
+<%- js('js/vendor/jquery-2.1.4.min') %>
+```
+
+Hexo 构建后会生成 `public/js/vendor/jquery-2.1.4.min.js`，并自动补充站点的
+`/Personal-blog/` 根路径。jQuery 必须保持在 Fancybox、GalMenu 和 `js/script.js` 之前加载。
+升级 jQuery 时应先使用新文件名并修改此引用，再检查图片预览、右键菜单、移动导航和分享功能。
 
 ## 修改自定义鼠标指针
 
