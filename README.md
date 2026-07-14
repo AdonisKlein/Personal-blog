@@ -105,7 +105,7 @@ source/uploads/                        站点通用图片，例如头像
 themes/shana/                          当前主题
 themes/shana/_config.yml               主题配置
 themes/shana/source/css/images/        主题图片根目录
-themes/shana/source/css/images/background/  四张全屏轮播背景
+themes/shana/source/css/images/background/  五张全屏轮播背景
 themes/shana/source/css/images/pointer/     自定义鼠标指针
 themes/shana/source/plugin/bganimation/bg.css  全屏轮播背景
 themes/shana/layout/_partial/          主题页面模板
@@ -255,36 +255,41 @@ npm run build
 themes/shana/source/plugin/bganimation/bg.css
 ```
 
-当前轮播使用 4 张图片：
+当前轮播使用 5 张图片：
 
 ```css
 .cb-slideshow li:nth-child(1) span {
-  background-image: url('../../css/images/background/background_1.png');
+  background-image: url('../../css/images/background/background_1.webp');
 }
 
 .cb-slideshow li:nth-child(2) span {
-  background-image: url('../../css/images/background/background_2.png');
+  background-image: url('../../css/images/background/background_2.webp');
 }
 
 .cb-slideshow li:nth-child(3) span {
-  background-image: url('../../css/images/background/background_3.png');
+  background-image: url('../../css/images/background/background_3.webp');
 }
 
 .cb-slideshow li:nth-child(4) span {
-  background-image: url('../../css/images/background/background_4.png');
+  background-image: url('../../css/images/background/background_4.webp');
+}
+
+.cb-slideshow li:nth-child(5) span {
+  background-image: url('../../css/images/background/background_5.webp');
 }
 ```
 
 对应图片位于：
 
 ```text
-themes/shana/source/css/images/background/background_1.png
-themes/shana/source/css/images/background/background_2.png
-themes/shana/source/css/images/background/background_3.png
-themes/shana/source/css/images/background/background_4.png
+themes/shana/source/css/images/background/background_1.webp
+themes/shana/source/css/images/background/background_2.webp
+themes/shana/source/css/images/background/background_3.webp
+themes/shana/source/css/images/background/background_4.webp
+themes/shana/source/css/images/background/background_5.webp
 ```
 
-如果替换图片，最简单的方式是保持文件名不变，直接替换这 4 个文件。
+如果替换图片，最简单的方式是保持文件名不变，直接替换这 5 个文件。
 
 如果改文件名，需要同时修改 `bg.css` 里的路径。
 
@@ -294,32 +299,33 @@ themes/shana/source/css/images/background/background_4.png
 themes/shana/layout/_partial/bganimation.ejs
 ```
 
-当前 4 张图对应 4 个 `<li>`：
+当前 5 张图对应 5 个 `<li>`：
 
 ```html
 <li><span>1</span></li>
 <li><span>2</span></li>
 <li><span>3</span></li>
 <li><span>4</span></li>
+<li><span>5</span></li>
 ```
 
-当前动画周期是 24 秒，每张间隔 6 秒。相关配置在 `bg.css` 中：
+当前动画周期是 30 秒，每张间隔 6 秒。相关配置在 `bg.css` 中：
 
 ```css
-animation: imageAnimation 24s linear infinite 0s;
+animation: imageAnimation 30s linear infinite 0s;
 ```
 
-四张图片的延迟依次为 `0s`、`6s`、`12s`、`18s`。修改数量或单张间隔时，需同时调整：
+五张图片的延迟依次为 `0s`、`6s`、`12s`、`18s`、`24s`。修改数量或单张间隔时，需同时调整：
 
 ```text
 总周期 = 图片数量 × 单张间隔
 第 n 张延迟 = (n - 1) × 单张间隔
 ```
 
-例如 4 张图每张间隔 8 秒，应把总时长改为 `32s`，后续图片延迟改为：
+例如 5 张图每张间隔 8 秒，应把总时长改为 `40s`，后续图片延迟改为：
 
 ```css
-8s, 16s, 24s
+8s, 16s, 24s, 32s
 ```
 
 背景图会以 `background-size: cover` 覆盖视口。为避免首次访问过慢，建议将图片缩放到
@@ -479,23 +485,23 @@ plugin/bganimation/bg.css
 要引用轮播目录中的：
 
 ```text
-css/images/background/background_1.png
+css/images/background/background_1.webp
 ```
 
 应该写：
 
 ```css
-url('../../css/images/background/background_1.png')
+url('../../css/images/background/background_1.webp')
 ```
 
 ## 当前网页定制变更总览
 
 本轮定制包含以下内容，提交或迁移项目时需要一起保留：
 
-1. 全屏轮播由 5 张减少为 4 张，模板节点同步减少为 4 个。
-2. 轮播图片重命名为 `background_1.png` 至 `background_4.png`，并集中放入 `images/background/`。
-3. 轮播总周期由 30 秒改为 24 秒，保持每 6 秒切换。
-4. 删除旧轮播文件 `1.png`、`2.png`、`3.jpg`、`4.png`、`5.png`。
+1. 全屏轮播当前使用 5 张图片，模板中包含 5 个对应节点。
+2. 轮播图片使用 `background_1.webp` 至 `background_5.webp`，集中放入 `images/background/`。
+3. 轮播总周期为 30 秒，保持每 6 秒切换。
+4. 旧的 PNG/JPEG 轮播文件已经替换为体积更小的 WebP 文件。
 5. 顶部横幅由 `MyGO.jpg` 更换为体积更小的 `MyGO.png`。
 6. `banner.jpg` 与 `banne1r.jpg` 保留为备用素材，当前不参与页面展示。
 7. 删除旧鼠标指针 `icon.png`、`icon2.png`，改用 `images/pointer/` 中的完整 `.cur` 指针方案。
@@ -544,7 +550,7 @@ npm run deploy
 
 ```text
 https://AdonisKlein.github.io/Personal-blog/uploads/avatar.jpg
-https://AdonisKlein.github.io/Personal-blog/css/images/background/background_1.png
+https://AdonisKlein.github.io/Personal-blog/css/images/background/background_1.webp
 https://AdonisKlein.github.io/Personal-blog/css/images/MyGO.png
 ```
 

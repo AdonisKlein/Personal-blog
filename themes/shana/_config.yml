@@ -42,17 +42,20 @@ galmenu: true
 mp3play: false
 gaymenu_item:
 - name: 首页
-  url : /
+  url: /
+  image: plugin/galmenu/images/home.webp
 - name: 标签
-  url : /tags
+  url: /tags
+  image: plugin/galmenu/images/tags.webp
 - name: 分类
-  url : /categories
+  url: /categories
+  image: plugin/galmenu/images/categories.webp
 - name: 归档
-  url : /archives
-- name: xxx
-  url : xxxxxxxxx
-- name: xxxx
-  url : xxxxxxx
+  url: /archives
+  image: plugin/galmenu/images/archives.webp
+- name: Github
+  url: https://github.com/AdonisKlein
+  image: plugin/galmenu/images/github.webp
 
 # 社交链接
 social:

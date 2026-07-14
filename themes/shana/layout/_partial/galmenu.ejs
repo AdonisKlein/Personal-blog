@@ -2,7 +2,7 @@
       <div class="circle" id="gal">
         <div class="ring">
           <% for (let item of theme.gaymenu_item){ %>
-            <a href="<%= url_for(item.url) %>" title="" class="menuItem"><%= item.name %></a>
+            <a href="<%= url_for(item.url) %>" class="menuItem" style="background-image: url('<%= url_for(item.image) %>')"><%= item.name %></a>
           <% } %>
         </div>
         <% if (theme.mp3play){ %>
