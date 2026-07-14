@@ -26,8 +26,11 @@ input, button
 
 html, body, #container
   height: 100%
-  
-body
+
+// Mobile browsers use the root element as the horizontal scroll container.
+// Keep off-canvas UI and animated backgrounds from widening the page.
+html, body
+  max-width: 100%
   overflow-x: hidden
 
 .wow 
