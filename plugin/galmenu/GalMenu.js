@@ -11,7 +11,8 @@
                 var $this = $(this),
                 settings = $.extend({},
                 GalMenu.defaults, o),
-                $menu = $('.' + settings.menu);
+                $menu = $('.' + settings.menu),
+                audio = $("#audio")[0];
                 $this.on('mousedown',
                 function(e) {
                     if (e.which !== 3 && $(e.target).parents('.GalMenu').length < 1 && settings.click_to_close) {
@@ -28,8 +29,10 @@
                         $(".circle").removeClass("open");
                         $("#overlay").hide();
                         $(".GalMenu").delay(400).hide(0);
-                        audio.pause();
-                        audio.currentTime = 0
+                        if (audio) {
+                            audio.pause();
+                            audio.currentTime = 0
+                        }
                     }
                 });
                 $this.on('contextmenu',
@@ -47,7 +50,6 @@
                             $(this).css('display', 'none')
                         }
                     });
-                    var audio = $("#audio")[0];
                     var add = 150;
                     var top = Coords.clientY - add,
                     left = ($('body')[0] === e.target) ? Coords.clickX - add: Coords.clientX - add;
@@ -74,12 +76,16 @@
                         $(".circle").removeClass("open");
                         $("#overlay").hide();
                         $(".GalMenu").delay(400).hide(0);
-                        audio.pause();
-                        audio.currentTime = 0
+                        if (audio) {
+                            audio.pause();
+                            audio.currentTime = 0
+                        }
                     } else {
                         $(".circle").addClass("open");
                         $("#overlay,.GalMenu").show();
-                        audio.play()
+                        if (audio) {
+                            audio.play()
+                        }
                     }
                 })
             })
