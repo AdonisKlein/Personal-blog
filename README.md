@@ -14,7 +14,9 @@ http://localhost:4000/Personal-blog/
 https://AdonisKlein.github.io/Personal-blog/
 ```
 
-当前部署配置位于 [_config.yml](./_config.yml)：
+部署配置文件： [_config.yml](./_config.yml) [路径](./)
+
+当前字段：
 
 ```yml
 url: https://AdonisKlein.github.io/Personal-blog
@@ -38,7 +40,7 @@ deploy:
 
 ## 更新流程
 
-修改文章、图片、主题或配置后按这个顺序操作：
+修改文章、图片、主题或配置后操作：
 
 ```bash
 hexo clean
