@@ -2,6 +2,12 @@
 
 这是一个基于 Hexo 的个人博客项目，当前使用主题为 `shana`。
 
+本地服务启动后地址：
+
+```text
+http://localhost:4000/Personal-blog/
+```
+
 线上地址：
 
 ```text
@@ -22,64 +28,28 @@ deploy:
 
 ## 常用命令
 
-本地预览：
+本地预览： `npm run server` 或 `hexo s`
 
-```bash
-npm run server
-```
+清理旧生成文件： `npm run clean` 或 `hexo clean`
 
-或：
+生成静态网站： `npm run build` 或 `hexo g`
 
-```bash
-hexo s
-```
+部署到 GitHub Pages： `npm run deploy` 或 `hexo d`
 
-默认访问：
+## 更新流程
 
-```text
-http://localhost:4000
-```
-
-清理旧生成文件：
-
-```bash
-npm run clean
-```
-
-生成静态网站：
-
-```bash
-npm run build
-```
-
-部署到 GitHub Pages：
-
-```bash
-npm run deploy
-```
-
-等价 Hexo 命令：
+修改文章、图片、主题或配置后按这个顺序操作：
 
 ```bash
 hexo clean
 hexo g
-hexo d
-```
-
-## 推荐更新流程
-
-修改文章、图片、主题或配置后，建议按这个顺序操作：
-
-```bash
-npm run clean
-npm run build
-npm run server
+hexo s
 ```
 
 本地确认无误后，部署线上网站：
 
 ```bash
-npm run deploy
+hexo d
 ```
 
 最后保存源码到 GitHub 的 `main` 分支：
@@ -113,7 +83,7 @@ public/                                Hexo 生成结果，不要手动维护
 .deploy_git/                           部署缓存目录，不要手动维护
 ```
 
-## 修改文章
+## 新建文章
 
 文章放在：
 
@@ -159,11 +129,13 @@ katex: true
 主题同时兼容旧的 `math: true` 写法。不包含 `katex: true` 或 `math: true` 的页面不会请求
 KaTeX CSS。这个条件只控制样式加载；Markdown 公式能否转换为 HTML 仍取决于数学渲染插件。
 
-## 修改站点基础信息
+## 修改站点信息
 
-站点标题、作者、语言、部署地址在 [_config.yml](./_config.yml)。
+### 修改站点基本信息
 
-常改字段：
+配置文件： [_config.yml](./_config.yml) 
+
+当前站点标题、作者、语言、部署地址字段：
 
 ```yml
 title: Adonis's Personal Blog
@@ -182,25 +154,17 @@ root: /Personal-blog/
 
 否则线上可能出现 CSS、JS、图片路径错误，页面像“主题丢失”。
 
-## 修改头像
+### 修改头像
 
-头像文件建议放在：
+配置文件：[_config.yml](./themes/shana/_config.yml) [路径](./themes/shana) 
 
-```text
-source/uploads/avatar.jpg
-```
+当前字段：
 
-然后修改主题配置：
-
-```text
-themes/shana/_config.yml
-```
-
-对应字段：
-
-```yml
+``` 
 avatar: /uploads/avatar.jpg
 ```
+
+头像文件： [avatar.jpg](./source/uploads/avatar.jpg) [路径](source/uploads) 
 
 当前主题模板已经使用 `url_for()` 处理路径，所以线上会自动生成：
 
@@ -208,69 +172,33 @@ avatar: /uploads/avatar.jpg
 /Personal-blog/uploads/avatar.jpg
 ```
 
-## 修改顶部横幅图
+### 修改顶部横幅图
 
-顶部横幅不是全屏轮播背景。
-
-配置文件：
-
-```text
-themes/shana/source/css/_variables.styl
-```
+配置文件： [_variables.sty](./themes/shana/source/css/variables.styl) [路径](./themes/shana/source/css/) 
 
 当前字段：
 
 ```stylus
 banner-height = 300px
-banner-url = "images/MyGO.png"
+banner-url = "images/banner.webp"
 ```
 
-图片建议放在：
+图片文件：[banner.webp](./themes/shana/source/css/images/banner.webp) [路径](./themes/shana/source/css/images/) 
 
-```text
-themes/shana/source/css/images/
-```
-
-例如：
-
-```text
-themes/shana/source/css/images/my-banner.jpg
-```
-
-然后改为：
-
-```stylus
-banner-url = "images/my-banner.jpg"
-```
-
-当前图片用途：
-
-```text
-MyGO.png    当前正在使用的顶部横幅
-banner.jpg  未被代码引用的备用素材
-banne1r.jpg 未被代码引用的备用素材（文件名确实是 banne1r）
-```
-
-顶部横幅由 `themes/shana/layout/_partial/header.ejs` 中的 `#banner` 元素展示，样式位于
-`themes/shana/source/css/_partial/header.styl`。`banner.jpg` 和 `banne1r.jpg` 会被 Hexo
-复制到 `public/`，但因为 CSS 没有引用，浏览器不会主动下载。
+顶部横幅由 `themes/shana/layout/_partial/header.ejs` 中的 `#banner` 元素展示，样式位于 `themes/shana/source/css/_partial/header.styl`。`banner.jpg` 会被 Hexo 复制到 `public/`，但因为 CSS 没有引用，浏览器不会主动下载。
 
 如果修改了 `_variables.styl` 后生成结果仍引用旧文件，必须清理 Hexo 缓存：
 
 ```bash
-npm run clean
-npm run build
+hexo clean
+hexo g
 ```
 
-## 修改全屏轮播背景
+### 修改全屏轮播背景
 
-你看到的多张底图轮换来自这个文件：
+配置文件： [bg.css](./themes/shana/source/plugin/bganimation/bg.css) [路径](./themes/shana/source/plugin/bganimation/) 
 
-```text
-themes/shana/source/plugin/bganimation/bg.css
-```
-
-当前轮播使用 5 张图片：
+当前字段：
 
 ```css
 .cb-slideshow li:nth-child(1) span {
@@ -294,17 +222,9 @@ themes/shana/source/plugin/bganimation/bg.css
 }
 ```
 
-对应图片位于：
+对应图片位于：[路径](./themes/shana/source/css/images/background/)
 
-```text
-themes/shana/source/css/images/background/background_1.webp
-themes/shana/source/css/images/background/background_2.webp
-themes/shana/source/css/images/background/background_3.webp
-themes/shana/source/css/images/background/background_4.webp
-themes/shana/source/css/images/background/background_5.webp
-```
-
-如果替换图片，最简单的方式是保持文件名不变，直接替换这 5 个文件。
+如果替换图片，保持文件名不变，直接替换这 5 个文件。
 
 如果改文件名，需要同时修改 `bg.css` 里的路径。
 
@@ -343,10 +263,9 @@ animation: imageAnimation 30s linear infinite 0s;
 8s, 16s, 24s, 32s
 ```
 
-背景图会以 `background-size: cover` 覆盖视口。为避免首次访问过慢，建议将图片缩放到
-约 `1920×1080`，优先使用 WebP 或压缩后的 PNG/JPEG，单张尽量控制在 1 MB 左右。
+背景图会以 `background-size: cover` 覆盖视口。
 
-## 修改网站字体
+### 修改网站字体
 
 正文使用系统字体栈，不下载额外的中文字体文件：
 
@@ -355,43 +274,13 @@ font-sans = "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", "Helvetica Neu
 ```
 
 配置位于 `themes/shana/source/css/_variables.styl`。macOS 和 iOS 优先使用苹方，Windows
-优先使用微软雅黑，其他系统依次使用思源黑体或通用无衬线字体。这种方案没有中文字体网络请求，
-首屏速度和跨网络稳定性最好。
+优先使用微软雅黑，其他系统依次使用思源黑体或通用无衬线字体。
 
-原来的 Google Fonts `Source Code Pro` 外链也已从 `head.ejs` 移除，代码块使用系统等宽字体回退。
-`themes/shana/source/css/fonts/AlibabaPuHuiTi-3/` 中的原始 TTF 仅作为字体素材保留，网页不会引用。
+### 修改自定义鼠标指针
 
-## 本地 jQuery
+鼠标指针资源位于： [路径](./themes/shana/source/css/images/pointer/) 
 
-主题使用的 jQuery 2.1.4 已从外部百度静态资源地址改为本地托管：
-
-```text
-themes/shana/source/js/vendor/jquery-2.1.4.min.js
-```
-
-引用位于 `themes/shana/layout/_partial/after-footer.ejs`：
-
-```ejs
-<%- js('js/vendor/jquery-2.1.4.min') %>
-```
-
-Hexo 构建后会生成 `public/js/vendor/jquery-2.1.4.min.js`，并自动补充站点的
-`/Personal-blog/` 根路径。jQuery 必须保持在 Fancybox、GalMenu 和 `js/script.js` 之前加载。
-升级 jQuery 时应先使用新文件名并修改此引用，再检查图片预览、右键菜单、移动导航和分享功能。
-
-## 修改自定义鼠标指针
-
-鼠标指针资源位于：
-
-```text
-themes/shana/source/css/images/pointer/
-```
-
-映射规则位于：
-
-```text
-themes/shana/source/css/style.styl
-```
+映射规则位于： [style.styl](./themes/shana/source/css/style.styl) [路径](./themes/shana/source/css/)
 
 当前自动映射：
 
@@ -427,22 +316,13 @@ themes/shana/source/css/style.styl
 <div class="cursor-resize-horizontal">可水平调整的区域</div>
 ```
 
-更换整套指针时，可以保留当前文件名直接覆盖 `.cur` 文件。如果文件名变化，还要同步修改
-`style.styl` 中对应的 `url('images/pointer/文件名.cur')`。所有声明都保留了标准 CSS
-光标作为回退，因此浏览器不支持 `.cur` 时仍可正常使用。
+更换整套指针时，可以保留当前文件名直接覆盖 `.cur` 文件。如果文件名变化，还要同步修改 `style.styl` 中对应的 `url('images/pointer/文件名.cur')`。所有声明都保留了标准 CSS 光标作为回退，因此浏览器不支持 `.cur` 时仍可正常使用。
 
-旧的 `icon.png` 和 `icon2.png` 已被移除。其中 `icon.png` 曾是全局默认指针，`icon2.png`
-在原主题代码中从未被引用。
+### 修改菜单
 
-## 修改菜单
+主菜单配置文件： [_config.yml](./themes/shana/_config.yml) [路径](./themes/shana/)
 
-主菜单配置在：
-
-```text
-themes/shana/_config.yml
-```
-
-字段：
+当前字段：
 
 ```yml
 menu:
@@ -452,7 +332,7 @@ menu:
   Tags: /tags
 ```
 
-右键圆形菜单配置也在同一个文件：
+右键圆形菜单配置字段：
 
 ```yml
 galmenu: true
@@ -468,17 +348,13 @@ gaymenu_item:
   url : /archives
 ```
 
-站内路径建议写 `/archives`、`/tags` 这种形式，不要手动写 `/Personal-blog/archives`。主题模板会自动补上 `root`。
+站内路径形式为 `/archives`、`/tags` 等。
 
-## 修改社交链接和友情链接
+### 修改社交链接和友情链接
 
-配置文件：
+配置文件： [_config.yml](./themes/shana/_config.yml) [路径](./themes/shana/)
 
-```text
-themes/shana/_config.yml
-```
-
-社交链接：
+当前社交链接字段：
 
 ```yml
 social:
@@ -486,13 +362,31 @@ social:
   name: Github
 ```
 
-友情链接：
+友情链接字段：
 
 ```yml
 link_title: 友情链接
 links:
   名称: https://example.com/
 ```
+
+## 本地 jQuery
+
+主题使用的 jQuery 2.1.4 已从外部百度静态资源地址改为本地托管：
+
+```text
+themes/shana/source/js/vendor/jquery-2.1.4.min.js
+```
+
+引用位于 `themes/shana/layout/_partial/after-footer.ejs`：
+
+```ejs
+<%- js('js/vendor/jquery-2.1.4.min') %>
+```
+
+Hexo 构建后会生成 `public/js/vendor/jquery-2.1.4.min.js`，并自动补充站点的
+`/Personal-blog/` 根路径。jQuery 必须保持在 Fancybox、GalMenu 和 `js/script.js` 之前加载。
+升级 jQuery 时应先使用新文件名并修改此引用，再检查图片预览、右键菜单、移动导航和分享功能。
 
 ## 图片路径规则
 
@@ -540,31 +434,6 @@ css/images/background/background_1.webp
 
 ```css
 url('../../css/images/background/background_1.webp')
-```
-
-## 当前网页定制变更总览
-
-本轮定制包含以下内容，提交或迁移项目时需要一起保留：
-
-1. 全屏轮播当前使用 5 张图片，模板中包含 5 个对应节点。
-2. 轮播图片使用 `background_1.webp` 至 `background_5.webp`，集中放入 `images/background/`。
-3. 轮播总周期为 30 秒，保持每 6 秒切换。
-4. 旧的 PNG/JPEG 轮播文件已经替换为体积更小的 WebP 文件。
-5. 顶部横幅由 `MyGO.jpg` 更换为体积更小的 `MyGO.png`。
-6. `banner.jpg` 与 `banne1r.jpg` 保留为备用素材，当前不参与页面展示。
-7. 删除旧鼠标指针 `icon.png`、`icon2.png`，改用 `images/pointer/` 中的完整 `.cur` 指针方案。
-8. 为常用 HTML 状态添加自动指针映射，并为其余状态添加 `.cursor-*` 工具类。
-
-涉及的核心文件：
-
-```text
-themes/shana/layout/_partial/bganimation.ejs
-themes/shana/source/plugin/bganimation/bg.css
-themes/shana/source/css/_variables.styl
-themes/shana/source/css/style.styl
-themes/shana/source/css/images/background/
-themes/shana/source/css/images/pointer/
-themes/shana/source/css/images/MyGO.png
 ```
 
 ## 部署后没有变化怎么办
